@@ -1,0 +1,13 @@
+<launch>
+
+  <arg name="namespace" default="slagsquare" />
+  <arg name="respawn" default="False" />
+
+  <node name="groundplan_visualization_node" pkg="slagsquare_groundplan_visualization" type="groundplan_visualization_node.py"
+        ns="$(arg namespace)" output="screen" respawn="False">
+
+    <rosparam file="$(find slagsquare_groundplan_visualization)/config/groundplan_visualization_params.yaml" />
+
+  </node>
+
+</launch>

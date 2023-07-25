@@ -1,0 +1,13 @@
+camera_name: virtual_camera
+frame_id: cascade/virtual_camera
+settings:
+  framerate: 10
+  manual_acquisition: False
+uri:
+  ip: "10.0.14.185"
+  protocol: "rtsp"
+  port: "554"
+  username: "kpv"
+  password: "kpv"
+  suffix: "live/87C1EBFA-AE4D-4B45-86C1-098AABE49874" # 0: IR, 1: IR low res, 2: rgb, 3: rgb low res
+  device_index: 0

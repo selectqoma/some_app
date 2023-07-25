@@ -1,0 +1,11 @@
+#Goal
+smelter_msgs/PanTiltZoom ptz
+---
+# Result
+bool success
+sensor_msgs/Image snapshot
+duration elapsed_time
+---
+# Feedback
+string state
+duration elapsed_time

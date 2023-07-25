@@ -1,0 +1,24 @@
+camera_name: dahua_ptz
+frame_id: dahua_ptz/camera_link
+camera_info_url: package://ip_camera_driver/calibrations/dahua_ptz_intrinsic_calibration.yaml
+settings:
+  framerate: 30
+  ptz_rate: 30
+  default:
+    position:
+      pan: 0.0
+      tilt: 0.0
+      zoom: 0.0
+    speed:
+      pan: 1.0
+      tilt: 1.0
+      zoom: 1.0
+uri:
+  ip: 192.168.0.101
+  protocol: rtsp
+  port: 80
+  username: admin
+  password: kapernikov2019
+  suffix: "" # 1080p
+#  suffix: cam/realmonitor?channel=1&subtype=1 # 355x288
+  device_index: 0

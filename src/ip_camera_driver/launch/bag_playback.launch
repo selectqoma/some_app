@@ -1,0 +1,22 @@
+<launch>
+
+  <arg name="start_time" default="0.0" />
+  <arg name="end_time" default="100000000.0" />
+  <arg name="duration" value="$(eval end_time-start_time)" />
+  <param name="duration" value="$(arg duration)" />
+  <arg name="loop" default="False" />
+  <arg name="loop_flag" value="$(eval '-l' * loop)" />
+  <arg name="respawn" default="False" />
+  <arg name="rate" default="1.0" />
+  <arg name="filename" />
+
+  <param name="/use_sim_time" value="True"/>
+  <arg name="playback_options" value="--clock $(arg filename) -s $(arg start_time) -u $(arg duration) -r $(arg rate) $(arg loop_flag)" />
+
+  <!-- play rosbag -->
+  <node name="rosbag_player" pkg="rosbag" type="play"
+        output="screen" respawn="$(arg respawn)"
+        args="$(arg playback_options)">
+  </node>
+
+</launch>

@@ -1,0 +1,14 @@
+camera_name: cascade/frog/ir
+frame_id: cascade/frog/ir/camera_link
+# camera_info_url: package://ip_camera_driver/calibrations/cascade_frog_ir_camera_intrinsic_calibration.yaml
+settings:
+  framerate: 5
+  manual_acquisition: False
+uri:
+  ip: 192.168.1.61
+  protocol: rtsp
+  port: "554"
+  username: ""
+  password: ""
+  suffix: "ch0" # 0: IR, 1: IR low res, 2: rgb, 3: rgb low res
+  device_index: 0

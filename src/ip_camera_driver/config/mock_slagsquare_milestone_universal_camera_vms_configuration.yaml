@@ -1,0 +1,13 @@
+camera_name: slagsquare/milestone_universal_camera
+frame_id: slagsquare/milestone_universal_camera/camera_link
+settings:
+  framerate: 1
+  manual_acquisition: False
+uri:
+  ip: "127.0.0.1"
+  protocol: "rtsp"
+  port: "9554"
+  username: ""
+  password: ""
+  suffix: ""
+  device_index: 0

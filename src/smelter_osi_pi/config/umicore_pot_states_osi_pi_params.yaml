@@ -1,0 +1,25 @@
+rows: 8
+cols: 28
+presense_threshold: 0.6
+column_indexing_offset: 0
+diagnostics_period: 1
+max_update_period: 60
+
+asset_server_pots_hierarchy:
+  - "SMELTER"
+  - "KOPEROVEN D100"
+  - "SLAKKENTAPPINGEN"
+  - "SLAKKENTAPPING NOORD"
+
+attribute_config_prefix: "daktyl"
+
+pots_path: "RIJ {}"
+keizer_pots_path: "KEIZERPOTTEN"
+
+attributes_template: "H26.S1.{}.{}"
+
+pots_attribute_prefix: "Rij {} Kolom {}"
+keizer_pots_attribute_prefix: "K{}"
+
+temperature_attribute_suffix: "PV"
+presense_attribute_suffix: "Status"

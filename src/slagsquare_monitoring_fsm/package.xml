@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>slagsquare_monitoring_fsm</name>
+  <version>0.0.0</version>
+  <description>The slagsquare_monitoring_fsm package</description>
+  <author email="george@kapernikov.com">George Kouros</author>
+  <maintainer email="george@kapernikov.com">George Kouros</maintainer>
+  <license>Copyright (c) 2019 Kapernikov CVBA. All rights reserved.</license>
+  <url type="website">http://www.kapernikov.com/</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>actionlib</depend>
+  <depend>actionlib_msgs</depend>
+  <depend>rospy</depend>
+  <depend>smach</depend>
+  <depend>smach_msgs</depend>
+  <depend>smach_ros</depend>
+  <depend>smelter_actions</depend>
+  <depend>smelter_msgs</depend>
+  <depend>std_msgs</depend>
+
+  <exec_depend>smach_viewer</exec_depend>
+
+  <export>
+  </export>
+</package>

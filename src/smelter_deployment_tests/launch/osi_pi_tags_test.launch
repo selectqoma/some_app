@@ -1,0 +1,16 @@
+<launch>
+
+  <!-- launch osi pi node -->
+  <include file="$(find smelter_osi_pi)/launch/slagsquare_pot_states_osi_pi_publisher.launch">
+    <arg name="namespace" value="slagsquare" />
+    <arg name="respawn" value="False" />
+  </include>
+
+  <!-- set test folder -->
+  <param name="test_module" value="$(find smelter_deployment_tests)/tests/osi_pi_tags_test" />
+
+  <!-- run pytest runner -->
+  <test test-name="osi_pi_tags_test" pkg="ros_pytest" type="ros_pytest_runner"
+        launch-prefix="python3" />
+
+</launch>

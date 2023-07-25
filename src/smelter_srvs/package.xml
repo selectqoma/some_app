@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>smelter_srvs</name>
+  <version>0.0.0</version>
+  <description>The smelter_srvs package</description>
+  <author email="george@kapernikov.com">George Kouros</author>
+  <maintainer email="george@kapernikov.com">George Kouros</maintainer>
+  <license>Copyright (c) 2020 Kapernikov CVBA. All rights reserved.</license>
+  <url type="website">http://www.kapernikov.com/</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>smelter_msgs</depend>
+  <depend>std_msgs</depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <export>
+  </export>
+</package>

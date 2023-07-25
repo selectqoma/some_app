@@ -1,0 +1,29 @@
+<launch>
+
+  <arg name="namespace" default="/" />
+  <arg name="respawn" default="False" />
+  <arg name="gui" default="False" />
+
+  <!-- launch diagnostics aggregator -->
+  <node
+    name="diagnostic_aggregator_node"
+    pkg="diagnostic_aggregator"
+    type="aggregator_node"
+    output="screen"
+    respawn="$(arg respawn)">
+
+    <!-- Load the file you made above -->
+    <rosparam
+      command="load"
+      file="$(find smelter_diagnostics)/config/diagnostic_aggregator_params.yaml" />
+
+  </node>
+
+  <!-- launch diagnostics visualization -->
+  <node if="$(arg gui)"
+    name="diagnostics_rqt_gui"
+    pkg="rqt_robot_monitor"
+    type="rqt_robot_monitor"
+    respawn="$(arg respawn)" />
+
+</launch>

@@ -1,0 +1,2 @@
+model_pkg: smelter_datasets_and_models
+model_path: slagsquare_monitoring/models/rgb/mask_rcnn_pot.h5

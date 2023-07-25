@@ -1,0 +1,23 @@
+intensity_threshold: 120
+wait_service_timeout: 30
+pixel_percentage_threshold: 0.5
+
+fumes_cover_on_roi:
+  x: 310
+  y: 105
+  width: 30
+  height: 15
+
+fumes_cover_off_rois:
+  - x: 90
+    y: 112
+    width: 40
+    height: 15
+  - x: 140
+    y: 112
+    width: 40
+    height: 15
+  - x: 190
+    y: 112
+    width: 40
+    height: 15

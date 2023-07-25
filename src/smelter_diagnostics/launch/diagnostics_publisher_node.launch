@@ -1,0 +1,37 @@
+<launch>
+
+  <arg name="namespace" default="/" />
+  <arg name="respawn" default="False" />
+  <arg name="bag" default="False" />
+  <arg name="use_proxy" default="False" />
+
+  <node
+    name="diagnostics_publisher_node"
+    pkg="smelter_diagnostics"
+    type="diagnostics_publisher_node.py"
+    output="screen"
+    ns="$(arg namespace)"
+    respawn="$(arg respawn)"
+    respawn_delay="10">
+
+    <rosparam
+      file="$(find smelter_diagnostics)/config/diagnostics_osi_pi_tags.yaml"
+      command="load" />
+
+    <rosparam
+      file="$(find smelter_osi_pi)/config/umicore_osi_pi_config_params.yaml"
+      command="load" />
+
+    <param name="~use_proxy" value="$(arg use_proxy)" />
+
+  </node>
+
+  <node
+    if="$(arg bag)"
+    name="bag_player_node"
+    pkg="rosbag"
+    type="play"
+    output="screen"
+    args="-l $(find smelter_diagnostics)/bags/diagnostics_agg.bag" />
+
+</launch>

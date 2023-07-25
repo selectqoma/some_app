@@ -1,0 +1,5 @@
+width: 960
+height: 640
+grid_rows: 8
+grid_cols: 28
+presense_probability_threshold: 0.6

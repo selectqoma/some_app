@@ -1,0 +1,23 @@
+camera_name: dahua_ptz
+frame_id: dahua_ptz/camera_link
+camera_info_url: package://ip_camera_driver/calibrations/dahua_ptz_intrinsic_calibration.yaml
+settings:
+  framerate: 30
+  ptz_rate: 30
+  default:
+    position:
+      pan: 0.0
+      tilt: 0.0
+      zoom: 0.0
+    speed:
+      pan: 1.0
+      tilt: 1.0
+      zoom: 1.0
+uri:
+  ip: 10.0.14.102
+  protocol: rtsp
+  port: 554
+  username: onvif_user
+  password: kpv
+  suffix: live/347915CD-DB40-4093-87C4-0CD196F00C9B
+  device_index: 2

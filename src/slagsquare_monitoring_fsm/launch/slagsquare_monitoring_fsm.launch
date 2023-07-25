@@ -1,0 +1,27 @@
+<launch>
+
+  <arg name="namespace" default="slagsquare" />
+  <arg name="viewer"    default="False" />
+  <arg name="camera"    default="camera" />
+  <arg name="step_mode" default="False" />
+  <arg name="respawn"   default="False" />
+
+  <node name="fsm_node"
+        pkg="slagsquare_monitoring_fsm"
+        type="slagsquare_monitoring_fsm_node.py"
+        output="screen"
+        respawn="$(arg respawn)"
+        ns="$(arg namespace)">
+
+    <param name="~step_mode" value="$(arg step_mode)" />
+    <param name="~viewer" value="$(arg viewer)" />
+    <param name="~camera" value="$(arg camera)" />
+
+    <remap from="~init" to="$(arg camera)/rgb/pot_detector/initialized" />
+
+  </node>
+
+  <node if="$(arg viewer)" name="smach_viewer" pkg="smach_viewer" type="smach_viewer.py"
+        ns="$(arg namespace)" respawn="$(arg respawn)" output="screen" args="" />
+
+</launch>

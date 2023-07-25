@@ -1,0 +1,15 @@
+.ipynb_checkpoints
+__pycache__/
+*.py[cod]
+*.retry
+*.tar
+build/
+devel/
+install/
+logs/
+
+# Python
+.venv/
+
+# Visual Studio Code
+.vscode/

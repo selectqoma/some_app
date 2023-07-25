@@ -1,0 +1,36 @@
+<launch>
+  <arg name="file" default="/home/gkouros/.ros/bags/slagsquare_cameras_2020-02-20-14-40-09_0.bag" />
+
+  <node pkg="rosbag" type="play" name="rosbag" required="true" args="$(arg file) -r 100"/>
+
+  <node name="$(anon image_export1_node)" pkg="image_view" type="extract_images" respawn="false" required="true" output="screen" cwd="ROS_HOME">
+    <param name="~filename_format" value="exported_frames/ir_normalized/%04d.jpg" />
+    <remap from="image" to="/slagsquare/flir_a310pt/ir/normalized/image_raw"/>
+  </node>
+
+  <node name="$(anon image_export2_node)" pkg="image_view" type="extract_images" respawn="false" required="true" output="screen" cwd="ROS_HOME">
+    <param name="~filename_format" value="exported_frames/ir_scaled/%04d.jpg" />
+    <remap from="image" to="/slagsquare/flir_a310pt/ir/scaled/image_raw"/>
+  </node>
+
+  <node name="$(anon image_export3_node)" pkg="image_view" type="extract_images" respawn="false" required="true" output="screen" cwd="ROS_HOME">
+    <param name="~filename_format" value="exported_frames/ir_unprocessed/%04d.jpg" />
+    <remap from="image" to="/slagsquare/flir_a310pt/ir/normalized/image_raw_unprocessed"/>
+  </node>
+
+  <node name="$(anon image_export4_node)" pkg="image_view" type="extract_images" respawn="false" required="true" output="screen" cwd="ROS_HOME">
+    <param name="~filename_format" value="exported_frames/rgb/%04d.jpg" />
+    <remap from="image" to="/slagsquare/flir_a310pt/rgb/image_raw"/>
+  </node>
+
+  <node name="$(anon image_export5_node)" pkg="image_view" type="extract_images" respawn="false" required="true" output="screen" cwd="ROS_HOME">
+    <param name="~filename_format" value="exported_frames/rgb_detections/%04d.jpg" />
+    <remap from="image" to="/slagsquare/rgb/detected_pots/image_raw"/>
+  </node>
+
+  <node name="$(anon image_export6_node)" pkg="image_view" type="extract_images" respawn="false" required="true" output="screen" cwd="ROS_HOME">
+    <param name="~filename_format" value="exported_frames/ir_detections/%04d.jpg" />
+    <remap from="image" to="/slagsquare/ir/detected_pots/image_raw"/>
+  </node>
+
+</launch>

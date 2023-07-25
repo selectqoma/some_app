@@ -1,0 +1,88 @@
+<launch>
+
+  <arg name="namespace" default="cascade" />
+  <arg name="camera" default="frog" />
+  <arg name="playback" default="False" />
+  <arg name="playback2" default="False" />
+  <arg name="cascade_state_monitoring" default="True"/>
+  <arg name="streaming" default="True" />
+  <arg name="rqt_gui" default="False" />
+  <arg name="record" default="True" />
+  <arg name="respawn" default="True" />
+  <arg name="rate" default="1" />
+  <arg name="bagfile"
+       default="$(find smelter_datasets_and_models)/cascade_monitoring/rosbags/20202901_frog_ir_0-350range_tapping_and_filling.bag" />
+  <arg name="start_time" default="0" />
+  <arg name="end_time" default="100000000" />
+  <arg name="diagnostics" default="False" />
+  <arg name="diagnostics_gui" default="False" />
+
+  <arg name="mock" default="False" />
+  <param name="/mock" value="$(eval mock+playback)" />
+
+  <!-- launch camera drivers -->
+  <include unless="$(eval mock+playback+playback2)" file="$(find ip_camera_driver)/launch/cascade_monitoring_camera_drivers.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="frog_ir" value="True" />
+    <arg name="bird_ir" value="False" />
+    <arg name="left_frog_rgb" value="False" />
+    <arg name="right_frog_rgb" value="False" />
+    <arg name="compressed" value="True" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="mock" value="$(arg mock)" />
+  </include>
+
+  <!-- launch bag player -->
+  <group if="$(eval mock+playback+playback2)">
+    <include if="$(eval mock+playback)" file="$(find ip_camera_driver)/launch/bag_playback.launch">
+      <arg name="loop" value="True" />
+      <arg name="filename" value="$(arg bagfile)" />
+      <arg name="respawn" value="$(arg respawn)" />
+      <arg name="rate" value="$(arg rate)" />
+      <arg name="start_time" value="$(arg start_time)" />
+      <arg name="end_time" value="$(arg end_time)" />
+    </include>
+    <node if="$(arg playback2)" name="multifile_bag_player_node" pkg="ip_camera_driver" type="multifile_bag_player.py"
+          ns="$(arg namespace)" respawn="$(arg respawn)" output="screen"
+          args="-r $(arg rate) -n 1 -s 300 -t 1"/>
+    <node name="decompressor" pkg="image_transport" type="republish"
+          ns="$(arg namespace)/$(arg camera)/ir" output="screen" respawn="$(arg respawn)"
+          args="compressed in:=image raw out:=image_raw" />
+  </group>
+
+  <!-- launch cascade state monitor -->
+  <include if="$(arg cascade_state_monitoring)"
+           file="$(find cascade_state_monitoring)/launch/cascade_state_monitoring.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <!-- launch rtsp streamer -->
+  <include if="$(arg streaming)" file="$(find ip_camera_driver)/launch/rtsp_streamer.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="topic" value="pot_states/image_raw" />
+    <arg name="port" value="8554" />
+    <arg name="expected_input_fps" value="10" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <include if="$(arg rqt_gui)" file="$(find smelter_monitoring_rqt_gui)/launch/smelter_monitoring_rqt_gui.launch">
+      <arg name="namespace" value="$(arg namespace)" />
+      <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <include if="$(arg record)" file="$(find ip_camera_driver)/launch/bag_recorder.launch">
+      <arg name="namespace" value="$(arg namespace)" />
+      <arg name="respawn" value="$(arg respawn)" />
+      <arg name="topics" default="/$(arg namespace)(.*)compressed" />
+  </include>
+
+  <!-- launch diagnostics for condition monitoring  -->
+  <include if="$(arg diagnostics)" file="$(find smelter_diagnostics)/launch/diagnostics.launch">
+    <arg name="namespace" value="/" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="gui" value="$(arg diagnostics_gui)" />
+    <arg name="osi_pi" value="False" />
+  </include>
+
+</launch>

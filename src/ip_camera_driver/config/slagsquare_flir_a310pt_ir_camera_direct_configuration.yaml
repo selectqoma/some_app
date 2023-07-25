@@ -1,0 +1,23 @@
+# for flir_cgi and cv_camera drivers
+camera_name: slagsquare/flir_a310pt/ir
+frame_id: slagsquare/flir_a310pt/ir_camera_link
+settings:
+  framerate: 0.1
+  ptz: True
+  ptz_rate: 5
+  ptz_tolerance: 0.01
+  ptz_action_timeout: 60.0
+  pt_offsets:
+    pan: -0.0665
+    tilt: 0.0
+  manual_acquisition: True
+  store_fff_snapshots: True
+uri:
+  ip: 192.168.1.104
+  protocol: 'rtsp'
+  port: "554"
+  cgi_port: "8090"
+  username: "" #"admin"
+  password: "" #"Umicore123"
+  device_index: 0
+  suffix: "ch0" # 0: IR, 1: IR low res, 2: rgb, 3: rgb low res

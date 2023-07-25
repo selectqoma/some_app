@@ -1,0 +1,10 @@
+update_rate: 5
+pub_rate: 10
+publish_tag_msgs: False
+batch_mode: True
+piwebapi_url: 'https://vpc-as-0075.nucleus.atom.ads/piwebapi'
+af_server_name: 'HOB' # 'PISRV1'
+pi_server_name: 'PIServerName'
+username: 'x000229@umicore.com' # Or, 'domain\\userName'
+password: '6Q%;H4xyi>n=,%l'
+auth_type: 'basic' # Basic or Kerberos

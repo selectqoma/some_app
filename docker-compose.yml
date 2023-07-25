@@ -1,0 +1,95 @@
+version: '3.4'
+
+# You can use this docker compose the following ways
+#
+# For execution on the server:
+# - $ docker-compose up
+#
+# For mock execution
+# - $ MOCK=True docker-compose up
+#
+# For mock execution with GUI visualizations
+# - $ MOCK=True GUI=True docker-compose up
+#
+# For execution of the cascade application only
+# - $ MOCK=True GUI=True CASCADE=True SLAGSQUARE=False RESTART:="no" RESPAWN:=False docker-compose up
+#
+# For execution of the slagsquare application only
+# - $ MOCK=True GUI=True CASCADE=False SLAGSQUARE=True RESTART=no RESPAWN=False docker-compose up
+#
+# NOTE: Disable the first two volumes when deploying in server
+
+x-settings: &settings
+  volumes:
+    - .:/home/kpv/catkin_ws/src/smelter-monitoring
+    - ~/.ros:/home/kpv/.ros
+    - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  environment:
+    - DISPLAY
+    - QT_X11_NO_MITSHM=1
+    - USER=kpv
+    - "ROS_MASTER_URI=http://localhost:11311"
+    - "ROS_HOSTNAME=localhost"
+  network_mode: host
+  restart: ${RESTART:-always}
+
+x-build: &build
+  build:
+    context: .
+    dockerfile: docker/base_${DISTRO:-focal}_x64/Dockerfile
+    cache_from:
+      - registry.gitlab.com/kapernikov/umicore/smelter-monitoring/base_${DISTRO:-focal}_x64
+
+services:
+
+  ros-master:
+    image: registry.gitlab.com/kapernikov/umicore/smelter-monitoring/base_${DISTRO:-focal}_x64
+    container_name: kpv-umicore-smelter-monitoring-rosmaster
+    <<: *settings
+    <<: *build
+    command: stdbuf -o L roscore
+
+  smelter-common:
+    image: registry.gitlab.com/kapernikov/umicore/smelter-monitoring/base_${DISTRO:-focal}_x64
+    container_name: kpv-umicore-smelter-common
+    <<: *settings
+    command: >
+      stdbuf -o L roslaunch --wait smelter_monitoring_bringup smelter_common_bringup.launch
+      respawn:=${RESPAWN:-True}
+
+  cascade-monitoring:
+    image: registry.gitlab.com/kapernikov/umicore/smelter-monitoring/base_${DISTRO:-focal}_x64
+    container_name: kpv-umicore-smelter-cascade-monitoring
+    <<: *settings
+    depends_on:
+      - ros-master
+    command: >
+      stdbuf -o L roslaunch --wait smelter_monitoring_bringup smelter_monitoring_bringup.launch
+      cascade:=${CASCADE:-True}
+      slagsquare:=False
+      common:=False
+      streaming:=True
+      rqt_gui:=${GUI:-False}
+      viewer:=${GUI:-False}
+      mock:=${MOCK:-False}
+      record:=${MOCK:-True}
+      respawn:=${RESPAWN:-True}
+
+  slagsquare-monitoring:
+    image: registry.gitlab.com/kapernikov/umicore/smelter-monitoring/base_${DISTRO:-focal}_x64
+    container_name: kpv-umicore-smelter-slagsquare-monitoring
+    <<: *settings
+    depends_on:
+      - ros-master
+    restart: ${RESTART:-always}
+    command: >
+      stdbuf -o L roslaunch --wait smelter_monitoring_bringup smelter_monitoring_bringup.launch
+      cascade:=False
+      slagsquare:=${SLAGSQUARE:-True}
+      common:=False
+      streaming:=True
+      rqt_gui:=${GUI:-False}
+      viewer:=${GUI:-False}
+      mock:=${MOCK:-False}
+      record:=${MOCK:-True}
+      respawn:=${RESPAWN:-True}

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>smelter_monitoring</name>
+  <version>0.0.0</version>
+  <description>The smelter_monitoring package</description>
+  <author email="george@kapernikov.com">George Kouros</author>
+  <maintainer email="george@kapernikov.com">George Kouros</maintainer>
+  <license>Copyright (c) 2019 Kapernikov CVBA. All rights reserved.</license>
+  <url type="website">http://www.kapernikov.com/</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>camera_patrol_controller</exec_depend>
+  <exec_depend>cascade_pot_detection</exec_depend>
+  <exec_depend>cascade_state_monitoring</exec_depend>
+  <exec_depend>ip_camera_driver</exec_depend>
+  <exec_depend>slagsquare_groundplan_visualization</exec_depend>
+  <exec_depend>slagsquare_monitoring_fsm</exec_depend>
+  <exec_depend>slagsquare_pot_instance_segmentation</exec_depend>
+  <exec_depend>slagsquare_pot_state_server</exec_depend>
+  <exec_depend>smelter_actions</exec_depend>
+  <exec_depend>smelter_diagnostics</exec_depend>
+  <exec_depend>smelter_monitoring_bringup</exec_depend>
+  <exec_depend>smelter_monitoring_rqt_gui</exec_depend>
+  <exec_depend>smelter_msgs</exec_depend>
+  <exec_depend>smelter_osi_pi</exec_depend>
+  <exec_depend>smelter_srvs</exec_depend>
+  <exec_depend>smelter_tests</exec_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>

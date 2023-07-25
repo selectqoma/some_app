@@ -1,0 +1,43 @@
+<launch>
+
+  <!-- arguments -->
+  <arg name="namespace" default="/" />
+  <arg name="comm" default="direct" doc="[direct, vms]"/>
+  <arg name="respawn" default="False" />
+  <arg name="compressed" default="False" />
+  <arg name="theora" default="False" />
+  <arg name="display" default="False" />
+  <arg name="viewpoint" default="" />
+  <arg name="side" default="" />
+  <arg name="type" default="" />
+
+  <!-- evaluate prefixes -->
+  <arg name="topic_prefix"
+    value="$(eval (viewpoint + '/') * (viewpoint != '') + (side + '/') * (side != '') + (type + '/') * (type != ''))" />
+
+  <arg name="name_prefix"
+    value="$(eval (viewpoint + '_') * (viewpoint != '') + (side + '_') * (side != '') + (type + '_') * (type != ''))" />
+
+  <arg name="configuration_fn"
+    value="$(eval namespace + '_' * (namespace != '/' + namespace != '') + name_prefix * (name_prefix != '/' + name_prefix != '') + 'camera_' + (comm + '_') * (comm != '') + 'configuration.yaml')" />
+
+  <!-- launch rtsp driver node -->
+  <node name="$(arg name_prefix)camera_driver_node" pkg="ip_camera_driver" type="ip_camera_driver_node.py"
+        ns="$(arg namespace)" respawn="$(arg respawn)" output="screen">
+
+    <rosparam file="$(find ip_camera_driver)/config/$(arg configuration_fn)" />
+
+    <remap from="image_raw" to="$(arg topic_prefix)/image_raw" />
+    <remap from="image/compressed" to="/$(arg topic_prefix)/image/compressed" />
+  </node>
+
+  <!-- launch republishers and display -->
+  <include file="$(find ip_camera_driver)/launch/republish.launch">
+    <arg name="namespace" value="$(arg namespace)/$(arg topic_prefix)"/>
+    <arg name="topic" value="image"/>
+    <arg name="compressed" value="$(arg compressed)"/>
+    <arg name="theora" value="$(arg theora)"/>
+    <arg name="display" value="$(arg display)"/>
+  </include>
+
+</launch>

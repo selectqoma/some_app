@@ -1,0 +1,27 @@
+tags:
+  - name: 'Positie brug H501'
+    id: 'F1DPYUB_fvptv0iuk9DWiEl8XwolsAAAVlBDLUFTLTAwNzVcSDI2LkdJNTAxLjAxLlBW'
+    type: 'float'
+    info: 'Position Bridge H501'
+
+  - name: 'Positie hulpkat brug H501'
+    id: 'F1DPYUB_fvptv0iuk9DWiEl8XwplsAAAVlBDLUFTLTAwNzVcSDI2LkdJQ0E1MDEuMTAuUFY'
+    type: 'float'
+    info: 'Position Auxialiary Cat Bridge H501'
+
+  - name: 'Positie hoofdkat brug H501'
+    id: 'F1DPYUB_fvptv0iuk9DWiEl8Xwp1sAAAVlBDLUFTLTAwNzVcSDI2LkdJQ0E1MDEuMjAuUFY'
+    type: 'float'
+    info: 'Position main cat bridge H501'
+
+  - name: 'Hoogte hulphijs H501'
+    id: 'F1DPYUB_fvptv0iuk9DWiEl8Xw-lsAAAVlBDLUFTLTAwNzVcSDI2LkdTNTAxLjEyLlBW'
+    type: 'float'
+    info: 'Height auxiliary lift H501'
+
+  - name: 'Hoogte hoofdhijs H501'
+    type: 'float'
+    id: 'F1DPYUB_fvptv0iuk9DWiEl8Xw-1sAAAVlBDLUFTLTAwNzVcSDI2LkdTNTAxLjIyLlBW'
+    info: 'Main Lifting Height H501'
+
+  # TODO find what other tags are needed

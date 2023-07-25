@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>smelter_monitoring_rqt_gui</name>
+  <version>0.0.0</version>
+  <description>The smelter_monitoring_rqt_gui package</description>
+  <author email="george@kapernikov.com">George Kouros</author>
+  <maintainer email="george@kapernikov.com">George Kouros</maintainer>
+  <license>Copyright (c) 2020 Kapernikov CVBA. All rights reserved.</license>
+  <url type="website">http://www.kapernikov.com/</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>rqt_console</exec_depend>
+  <exec_depend>rqt_gui</exec_depend>
+  <exec_depend>rqt_image_view</exec_depend>
+  <exec_depend>rqt_robot_monitor</exec_depend>
+  <exec_depend>rqt_runtime_monitor</exec_depend>
+  <exec_depend>rqt_top</exec_depend>
+
+  <export>
+  </export>
+</package>

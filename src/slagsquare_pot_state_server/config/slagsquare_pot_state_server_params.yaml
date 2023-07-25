@@ -1,0 +1,5 @@
+pickle_states: True
+pickle_expiration_time: 30 # minutes
+column_indexing_offset: 8
+grid_rows: 8
+grid_cols: 28

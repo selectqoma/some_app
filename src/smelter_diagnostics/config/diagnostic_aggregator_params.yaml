@@ -1,0 +1,61 @@
+pub_rate: 0.01
+base_path: ''
+analyzers:
+
+  slagsquare:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: "Slagsquare Monitoring"
+    analyzers:
+      ir_camera:
+        type: "diagnostic_aggregator/GenericAnalyzer"
+        path: "FLIR A310PT IR"
+        startswith: "slagsquare/flir_a310pt/ir"
+        find_and_remove_prefix: "slagsquare/flir_a310pt/ir"
+        timeout: 5.0
+      rgb_camera:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: "FLIR A310PT RGB"
+        startswith: "slagsquare/flir_a310pt/rgb"
+        find_and_remove_prefix: "slagsquare/flir_a310pt/rgb"
+        timeout: 5.0
+      streamer:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: "Pot States Groundplan RTSP Streamer"
+        startswith: "slagsquare/rtsp_streamer"
+        find_and_remove_prefix: "slagsquare/rtsp_streamer"
+        timeout: 5.0
+      milestone_driver:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: "Milestone Universal Camera Driver"
+        startswith: "slagsquare/milestone_universal_camera"
+        find_and_remove_prefix: "slagsquare/milestone_universal_camera"
+        timeout: 5.0
+      osi_pi:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: "OSI PI Pot State Publisher"
+        startswith: "slagsquare/osi_pi/pot_states"
+        find_and_remove_prefix: "slagsquare/osi_pi/pot_states"
+        timeout: 5.0
+
+  cascade:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: "Cascade Monitoring"
+    analyzers:
+      ir_camera:
+        type: "diagnostic_aggregator/GenericAnalyzer"
+        path: "FLIR A310F IR"
+        startswith: "cascade/flir_a310f/ir"
+        find_and_remove_prefix: "cascade/flir_a310f/ir"
+        timeout: 5.0
+      streamer:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: "Pot Filling States RTSP Streamer"
+        startswith: "cascade/rtsp_streamer"
+        find_and_remove_prefix: "cascade/rtsp_streamer"
+        timeout: 5.0
+      milestone_driver:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: "Milestone Universal Camera Driver"
+        startswith: "cascade/milestone_universal_camera"
+        find_and_remove_prefix: "cascade/milestone_universal_camera"
+        timeout: 5.0

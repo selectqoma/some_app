@@ -1,0 +1,9 @@
+endpoint: "opc.tcp://0.0.0.0:4840/slagsquaremonitor/server/"
+server_name: "Slagsquare Monitor OPC UA Server"
+namespace_uri: "https://slagsquaremonitoring.com"
+device_name: "SlagsquareMonitor"
+temperature_tag_template: "H26.S1.ROW{}COLUMN{}TEMPPV"
+presence_tag_template: "H26.S1.ROW{}COLUMN{}PRESENCEPV"
+timestamp_tag_template: "H26.S1.ROW{}COLUMN{}TIMESTAMPPV"
+num_rows: 20
+num_cols: 8

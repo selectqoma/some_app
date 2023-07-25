@@ -1,0 +1,14 @@
+# for cv camera driver
+camera_name: slagsquare/flir_a310pt/rgb
+frame_id: slagsquare/flir_a310pt/rgb_camera_link
+settings:
+  framerate: 10
+  manual_acquisition: True
+uri:
+  ip: 192.168.1.104
+  protocol: 'rtsp'
+  port: "554"
+  username: "" #"admin"
+  password: "" #"Umicore123"
+  suffix: "ch2" # 0: IR, 1: IR low res, 2: rgb, 3: rgb low res
+  device_index: 0

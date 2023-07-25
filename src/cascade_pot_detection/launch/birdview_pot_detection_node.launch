@@ -1,0 +1,17 @@
+<launch>
+
+  <arg name="compressed_input" default="false" />
+  <arg name="compressed_output" default="false" />
+
+  <node name="birdview_pot_detection_node" pkg="cascade_pot_detection" type="birdview_pot_detection_node.py" output="screen">
+    <rosparam file="$(find cascade_pot_detection)/config/birdview_pot_detection_params.yaml" />
+    <remap from="~image" to="/flir_birdcam_cascade/ir/image" />
+    <remap from="~detected_pots/image" to="/flir_birdcam_cascade/ir/detected_pots/image" />
+  </node>
+
+  <node if="$(arg compressed_input)" name="flir_birdcam_cascade_ir_input_decompressor" pkg="image_transport" type="republish"
+    args="compressed in:=/flir_birdcam_cascade/ir/image raw out:=/flir_birdcam_cascade/ir/image" />
+  <node if="$(arg compressed_output)" name="flir_birdcam_cascade_ir_output_compressor" pkg="image_transport" type="republish"
+    args="raw in:=/flir_birdcam_cascade/ir/detected_pots/image compressed out:=/flir_birdcam_cascade/ir/detected_pots/image" />
+
+</launch>

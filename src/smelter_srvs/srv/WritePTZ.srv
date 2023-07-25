@@ -1,0 +1,3 @@
+smelter_msgs/PanTiltZoom ptz
+---
+bool success

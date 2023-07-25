@@ -1,0 +1,55 @@
+update_mode: manual # manual | auto
+rate: 0.2
+frame_id: flir_a310pt
+ptz_presets:
+  - pan: -1.319
+    tilt: -0.393
+    zoom: 0.0
+  - pan: -1.1
+    tilt: -0.393
+    zoom: 0.0
+  - pan: -0.942
+    tilt: -0.361
+    zoom: 0.0
+  - pan: -0.723
+    tilt: -0.393
+    zoom: 0.0
+  - pan: -0.377
+    tilt: -0.597
+    zoom: 0.0
+  - pan: 0.063
+    tilt: -0.66
+    zoom: 0.0
+  - pan: 0.534
+    tilt: -0.597
+    zoom: 0.0
+  - pan: 0.848
+    tilt: -0.471
+    zoom: 0.0
+  - pan: 1.1
+    tilt: -0.518
+    zoom: 0.0
+  - pan: 1.257
+    tilt: -0.55
+    zoom: 0.0
+  - pan: 1.1
+    tilt: -0.785
+    zoom: 0.0
+  - pan: 0.785
+    tilt: -0.785
+    zoom: 0.0
+  - pan: 0.314
+    tilt: -0.785
+    zoom: 0.0
+  - pan: -0.314
+    tilt: -0.785
+    zoom: 0.0
+  - pan: -0.785
+    tilt: -0.785
+    zoom: 0.0
+  - pan: -1.1
+    tilt: -0.785
+    zoom: 0.0
+  - pan: -1.194
+    tilt: -0.628
+    zoom: 0.0

@@ -1,0 +1,14 @@
+camera_name: cascade_bird_ir_camera
+frame_id: cascade/bird/ir/camera_link
+# camera_info_url: package://ip_camera_driver/calibrations/cascade_bird_ir_camera_intrinsic_calibration.yaml
+settings:
+  framerate: 10
+  manual_acquisition: False
+uri:
+  ip: 192.168.1.76
+  protocol: rtsp
+  port: "80"
+  username: ""
+  password: ""
+  suffix: "ch0"
+  device_index: 0

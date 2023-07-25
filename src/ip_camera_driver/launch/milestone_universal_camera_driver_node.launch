@@ -1,0 +1,18 @@
+<launch>
+
+  <arg name="namespace" default="/" />
+  <arg name="mock" default="False" />
+  <arg name="respawn" default="False" />
+  <arg name="filename" value="$(eval mock*'mock_' + namespace + '_milestone_universal_camera_vms_configuration.yaml')" />
+
+  <!-- launch rgb camera driver -->
+  <node name="rtsp_camera_driver_node" pkg="ip_camera_driver" type="ip_camera_driver_node.py"
+        ns="$(arg namespace)/milestone_universal_camera" respawn="$(arg respawn)">
+
+    <!-- Load camera parameters -->
+    <rosparam file="$(find ip_camera_driver)/config/$(arg filename)" />
+    <param name="~mock" value="False" />
+
+  </node>
+
+</launch>

@@ -1,0 +1,40 @@
+<launch>
+
+  <arg name="topic" value="/test_image" />
+
+  <include file="$(find ip_camera_driver)/launch/rtsp_streamer.launch">
+    <arg name="namespace" value="/"/>
+    <arg name="topic" value="$(arg topic)"/>
+    <arg name="framerate" value="10"/>
+    <arg name="port" value="8554"/>
+    <arg name="scale" value="1"/>
+    <arg name="respawn" value="False"/>
+    <arg name="expected_input_fps" value="0"/>
+    <arg name="show_timestamp" value="False" />
+  </include>
+
+  <!-- Launch rtsp driver node -->
+  <node name="rtsp_driver_node" pkg="ip_camera_driver" type="ip_camera_driver_node.py"
+        respawn="True" output="screen" launch-prefix="python3">
+    <rosparam file="$(find ip_camera_driver)/config/slagsquare_flir_a310pt_rgb_camera_direct_configuration.yaml" command="load"/>
+
+    <!-- overwrite some params -->
+    <rosparam>
+      settings:
+        manual_acquisition: False
+      uri:
+        ip: "127.0.0.1"
+        port: "8554"
+        suffix: ""
+    </rosparam>
+    <remap from="image_raw" to="$(arg topic)_from_rtsp" />
+  </node>
+
+  <!-- set test folder -->
+  <param name="test_module" value="$(find smelter_tests)/tests/rtsp_test" />
+
+  <!-- run pytest runner -->
+  <test test-name="rtsp" pkg="ros_pytest" type="ros_pytest_runner"
+        launch-prefix="python3" />
+
+</launch>

@@ -1,0 +1,20 @@
+<launch>
+
+  <arg name="namespace" default="/" />
+  <arg name="camera" default="camera" />
+  <arg name="respawn" default="False" />
+  <arg name="auto_mode" default="False" />
+
+  <node name="pot_detector_node" pkg="slagsquare_pot_instance_segmentation" type="pot_detector_node.py"
+        ns="$(arg namespace)/$(arg camera)/rgb" output="screen" respawn="False">
+
+    <!-- Load node params -->
+    <rosparam file="$(find slagsquare_pot_instance_segmentation)/config/pot_detector_params.yaml" subst_value="true" />
+
+    <param name="~auto_mode" value="$(arg auto_mode)" />
+
+    <remap from="image_raw" to="snapshot/image_raw" />
+
+  </node>
+
+</launch>

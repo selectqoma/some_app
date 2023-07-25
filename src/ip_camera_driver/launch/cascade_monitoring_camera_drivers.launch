@@ -1,0 +1,80 @@
+<launch>
+
+  <arg name="namespace" default="cascade" />
+  <arg name="comm" default="direct" doc="[direct, vms]"/>
+  <arg name="frog_ir" default="True" />
+  <arg name="bird_ir" default="False" />
+  <arg name="left_frog_rgb" default="False" />
+  <arg name="right_frog_rgb" default="False" />
+  <arg name="vms" default="True" />
+  <arg name="compressed" default="False" />
+  <arg name="theora" default="False" />
+  <arg name="display" default="False" />
+  <arg name="respawn" default="False" />
+  <arg name="mock" default="False" />
+
+  <!-- launch frog ir camera driver -->
+  <include if="$(arg frog_ir)"
+           file="$(find ip_camera_driver)/launch/ip_camera_driver_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="comm" value="direct" />
+    <arg name="compressed" value="$(arg compressed)" />
+    <arg name="theora" value="$(arg theora)" />
+    <arg name="display" value="$(arg display)" />
+    <arg name="viewpoint" value="frog" />
+    <arg name="side" value="" />
+    <arg name="type" value="ir" />
+    <arg name="respawn" default="$(arg respawn)" />
+  </include>
+
+  <!-- launch bird ir camera driver -->
+  <include if="$(arg bird_ir)"
+           file="$(find ip_camera_driver)/launch/ip_camera_driver_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="comm" value="direct" />
+    <arg name="compressed" value="$(arg compressed)" />
+    <arg name="theora" value="$(arg theora)" />
+    <arg name="display" value="$(arg display)" />
+    <arg name="viewpoint" value="bird" />
+    <arg name="side" value="" />
+    <arg name="type" value="ir" />
+    <arg name="respawn" default="$(arg respawn)" />
+  </include>
+
+  <!-- launch left frog ir camera driver -->
+  <include if="$(arg left_frog_rgb)"
+           file="$(find ip_camera_driver)/launch/ip_camera_driver_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="comm" value="direct" />
+    <arg name="compressed" value="$(arg compressed)" />
+    <arg name="theora" value="$(arg theora)" />
+    <arg name="display" value="$(arg display)" />
+    <arg name="viewpoint" value="frog" />
+    <arg name="side" value="left" />
+    <arg name="type" value="rgb" />
+    <arg name="respawn" default="$(arg respawn)" />
+  </include>
+
+  <!-- launch right frog ir camera driver -->
+  <include if="$(arg right_frog_rgb)"
+           file="$(find ip_camera_driver)/launch/ip_camera_driver_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="comm" value="direct" />
+    <arg name="compressed" value="$(arg compressed)" />
+    <arg name="theora" value="$(arg theora)" />
+    <arg name="display" value="$(arg display)" />
+    <arg name="viewpoint" value="frog" />
+    <arg name="side" value="right" />
+    <arg name="type" value="rgb" />
+    <arg name="respawn" default="$(arg respawn)" />
+  </include>
+
+  <!-- launch vms universal camera driver node -->
+  <include if="$(arg vms)"
+           file="$(find ip_camera_driver)/launch/milestone_universal_camera_driver_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="mock" value="$(arg mock)" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+</launch>

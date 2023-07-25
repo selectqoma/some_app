@@ -1,0 +1,8 @@
+pip-zeep:
+  ubuntu:
+    pip:
+      packages: [zeep]
+pip-onvif:
+  ubuntu:
+    pip:
+      packages: [onvif]

@@ -1,0 +1,6 @@
+piwebapi_url: "https://devdata.osisoft.com/piwebapi"
+af_server_name: "PISRV1"
+af_database_name: "OSIPythonDatabase"
+piwebapi_user: "webapiuser" # Or, "domain\\userName"
+piwebapi_pass: "!try3.14webapi!"
+piwebapi_security_method: "basic" # Basic or Kerberos

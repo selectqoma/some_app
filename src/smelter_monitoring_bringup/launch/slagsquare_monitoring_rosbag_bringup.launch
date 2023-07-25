@@ -1,0 +1,77 @@
+<launch>
+
+  <!-- arguments -->
+  <arg name="namespace" default="slagsquare" />
+  <arg name="camera" default="flir_a310pt" />
+  <arg name="rate" default="1.0" />
+  <!-- mode flags -->
+  <arg name="playback" default="True" />
+  <arg name="respawn" value="False" />
+  <!-- node flags -->
+  <arg name="pot_detector" default="True" />
+  <arg name="pot_state_server" default="True" />
+  <arg name="groundplan_viz" default="True" />
+  <arg name="diagnostics" default="False" />
+  <arg name="rqt_gui" default="False" />
+
+  <arg name="mock" default="False" />
+
+  <!-- launch pot detector -->
+  <include if="$(arg pot_detector)" file="$(find slagsquare_pot_instance_segmentation)/launch/pot_detector_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="camera" value="$(arg camera)" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="auto_mode" value="True" />
+  </include>
+
+  <!-- launch pot state server node  -->
+  <include if="$(arg pot_state_server)" file="$(find slagsquare_pot_state_server)/launch/pot_state_server_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="camera" value="$(arg camera)" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="osi_pi" value="False" />
+    <arg name="use_proxy" value="False" />
+    <arg name="auto_mode" value="True" />
+    <arg name="mock" value="True" />
+  </include>
+
+  <!-- launch groundplan visualization -->
+  <include if="$(arg groundplan_viz)" file="$(find slagsquare_groundplan_visualization)/launch/groundplan_visualization_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <!-- launch diagnostics for condition monitoring  -->
+  <include if="$(arg diagnostics)" file="$(find smelter_diagnostics)/launch/diagnostics.launch">
+    <arg name="namespace" value="/" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="gui" value="False" />
+    <arg name="osi_pi" value="False" />
+    <arg name="use_proxy" value="False" />
+  </include>
+
+  <!-- launch rqt_gui -->
+  <include if="$(arg rqt_gui)" file="$(find smelter_monitoring_rqt_gui)/launch/smelter_monitoring_rqt_gui.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <!-- play bagfile -->
+  <include file="$(find ip_camera_driver)/launch/bag_playback.launch">
+    <arg name="filename" value="$(env HOME)/.ros/slagsquare_rosbag_demo/20200513_slagsquare_cameras.bag" />
+    <arg name="rate" value="$(arg rate)" />
+  </include>
+
+  <!-- decompress rgb img topic from bagfile -->
+  <node name="rgb_snapshot_decompressor_node"
+    pkg="image_transport" type="republish"
+    ns="$(arg namespace)" output="screen" respawn="$(arg respawn)"
+    args="compressed in:=$(arg camera)/rgb/snapshot/image raw out:=$(arg camera)/rgb/snapshot/image_raw" />
+
+  <!-- relay rgb img topic for rqt gui -->
+  <node name="rgb_snapshot_relay_node"
+    pkg="topic_tools" type="relay"
+    ns="$(arg namespace)" output="screen" respawn="$(arg respawn)"
+    args="$(arg camera)/rgb/snapshot/image_raw $(arg camera)/rgb/image_raw" />
+
+</launch>

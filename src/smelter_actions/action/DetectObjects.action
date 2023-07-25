@@ -1,0 +1,5 @@
+sensor_msgs/Image image
+---
+bool success
+smelter_msgs/DetectedObjects detected_objects
+---

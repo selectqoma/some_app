@@ -1,0 +1,39 @@
+<launch>
+
+  <arg name="namespace" />
+  <arg name="port" default="8554" />
+  <arg name="respawn" default="False" />
+
+  <arg name="topic1" default="image_raw" />
+  <arg name="suffix1" default="video1" />
+
+  <arg name="topic2" default="image2_raw" />
+  <arg name="suffix2" default="video2" />
+
+  <!-- launch nodelet manager -->
+  <node name="rtsp_streaming_manager" pkg="nodelet" type="nodelet"
+        ns="$(arg namespace)" args="manager" output="screen" respawn="$(arg respawn)" />
+
+  <!-- launch nodelet -->
+  <node name="Image2RTSPNodelet" pkg="nodelet" type="nodelet"
+        ns="$(arg namespace)" output="screen" clear_params="True"
+        args="load image2rtsp/Image2RTSPNodelet rtsp_streaming_manager">
+    <rosparam subst_value="True">
+      port: "$(arg port)"
+      streams:                  # Cannot rename - must leave this as is.
+        stream1:                 # Can name this whatever you choose
+          type: topic           # topic - Image is sourced from a sensor_msgs::Image topic
+          source: $(arg topic1)  # The ROS topic to subscribe to
+          mountpoint: /$(arg suffix1)         # Choose the mountpoint for the rtsp stream. This will be able to be accessed from rtsp://server_ip/back
+          caps: video/x-raw,framerate=10/1 #,width=640,height=480  # Set the caps to be applied after getting the ROS Image and before the x265 encoder.
+          bitrate: 500          # bitrate for the h264 encoding.
+        stream2:                 # Can name this whatever you choose
+          type: topic           # topic - Image is sourced from a sensor_msgs::Image topic
+          source: $(arg topic2)  # The ROS topic to subscribe to
+          mountpoint: /$(arg suffix2)         # Choose the mountpoint for the rtsp stream. This will be able to be accessed from rtsp://server_ip/back
+          caps: video/x-raw,framerate=10/1 #,width=640,height=480  # Set the caps to be applied after getting the ROS Image and before the x265 encoder.
+          bitrate: 500          # bitrate for the h264 encoding.
+    </rosparam>
+	</node>
+
+</launch>

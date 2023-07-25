@@ -1,0 +1,38 @@
+<launch>
+
+  <!-- Arguments -->
+  <arg name="namespace" default="/" />
+  <arg name="respawn" default="False" />
+
+
+  <!-- Launch pot filling state monitoring node -->
+  <node name="pot_filling_state_monitoring_node" pkg="cascade_state_monitoring" type="pot_filling_monitoring_node.py"
+        ns="$(arg namespace)" output="screen" respawn="$(arg respawn)">
+
+    <!-- remap message topics -->
+    <remap from="~image_raw" to="frog/ir/image_raw" />
+    <remap from="~pot_states/image_raw" to="pot_states/image_raw" />
+
+    <!-- remap service topics -->
+    <remap from="~start_monitoring" to="start_monitoring" />
+    <remap from="~stop_monitoring" to="stop_monitoring" />
+
+  </node>
+
+
+  <!-- Launch fumes cover monitor -->
+  <node name="fumes_cover_monitoring_node" pkg="cascade_state_monitoring" type="fumes_cover_monitoring_node.py"
+        ns="$(arg namespace)" output="screen" respawn="$(arg respawn)">
+
+    <!-- remap message topics -->
+    <remap from="~image_raw" to="frog/ir/image_raw" />
+    <remap from="~fumes_cover_state/image_raw" to="fumes_cover_state/image_raw" />
+    <remap from="~fumes_cover_on" to="fumes_cover_on" />
+
+    <!-- remap service topics -->
+    <remap from="~start" to="start_monitoring" />
+    <remap from="~stop" to="stop_monitoring" />
+
+  </node>
+
+</launch>

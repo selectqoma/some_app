@@ -1,0 +1,20 @@
+image_width: 704
+image_height: 480
+camera_name: flir_a310pt/ir/camera_link
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [1079.25968, 0.0, 272.896146, 0.0, 1095.73657, 208.906006, 0.0, 0.0, 0.33333]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.191267, -0.939011, -0.009699, -0.005125, 3.210965]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [1050.697103, 0.0, 268.72805933, 0.0, 0.0, 1090.51448567, 208.408792, 0.0, 0.0, 0.0, 1.0, 0.0]

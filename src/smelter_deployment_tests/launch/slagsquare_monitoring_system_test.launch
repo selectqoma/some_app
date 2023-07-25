@@ -1,0 +1,30 @@
+<launch>
+
+  <arg name="namespace" default="slagsquare" />
+
+  <!-- These need to be increased but the first the algorithm needs to be refined -->
+  <arg name="validation_threshold1" value="0.3" />
+  <arg name="validation_threshold2" value="0.8" />
+
+  <!-- Launch application -->
+  <include file="$(find smelter_monitoring_bringup)/launch/slagsquare_monitoring_bringup.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="mock" value="False" />
+    <arg name="osi_pi" value="True" />
+    <arg name="step_mode" value="True" />
+    <arg name="record" value="False" />
+  </include>
+
+  <!-- set test folder and other params-->
+  <rosparam subst_value="True">
+    $(arg namespace):
+      test_module: "$(find smelter_deployment_tests)/tests/slagsquare_monitoring_system_test"
+      validation_threshold1: $(arg validation_threshold1)
+      validation_threshold2: $(arg validation_threshold2)
+  </rosparam>
+
+  <!-- run pytest runner -->
+  <test test-name="ci_system_test" pkg="ros_pytest" type="ros_pytest_runner"
+        ns="$(arg namespace)" launch-prefix="python3" time-limit="600.0" />
+
+</launch>

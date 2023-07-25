@@ -1,0 +1,15 @@
+<launch>
+
+  <arg name="namespace" default="/" />
+  <arg name="camera" default="rgb" />
+  <arg name="respawn" default="False" />
+
+  <node name="camera_patrol_controller_node" pkg="camera_patrol_controller" type="camera_patrol_controller_node.py"
+        ns="$(arg namespace)/$(arg camera)" output="screen" respawn="False">
+
+    <rosparam file="$(find camera_patrol_controller)/config/$(arg namespace)_$(arg camera)_camera_patrol_controller_params.yaml"
+              command="load"/>
+
+  </node>
+
+</launch>

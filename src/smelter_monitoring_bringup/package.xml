@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>smelter_monitoring_bringup</name>
+  <version>0.0.0</version>
+  <description>The smelter_monitoring_bringup package</description>
+  <author email="george@kapernikov.com">George Kouros</author>
+  <maintainer email="george@kapernikov.com">George Kouros</maintainer>
+  <license>Copyright (c) 2020 Kapernikov CVBA. All rights reserved.</license>
+  <url type="website">http://www.kapernikov.com/</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>camera_patrol_controller</exec_depend>
+  <exec_depend>cascade_state_monitoring</exec_depend>
+  <exec_depend>ip_camera_driver</exec_depend>
+  <exec_depend>slagsquare_groundplan_visualization</exec_depend>
+  <exec_depend>slagsquare_monitoring_fsm</exec_depend>
+  <exec_depend>slagsquare_pot_instance_segmentation</exec_depend>
+  <exec_depend>slagsquare_pot_state_server</exec_depend>
+  <exec_depend>smelter_diagnostics</exec_depend>
+  <exec_depend>smelter_monitoring_rqt_gui</exec_depend>
+  <exec_depend>smelter_osi_pi</exec_depend>
+  <exec_depend>robot_upstart</exec_depend>
+
+  <export>
+  </export>
+</package>

@@ -1,0 +1,13 @@
+uint8 SOURCE_LOCATION_CASCADE=0
+uint8 SOURCE_LOCATION_COOLING_FIELD=1
+uint8 SOURCE_LOCATION_ELEVATED_COOLING_FIELD=2
+
+uint8[] source_location
+uint8[] source_slot
+
+uint8[] dest_location
+uint8[] dest_slot
+
+float64[] weight
+---
+bool success

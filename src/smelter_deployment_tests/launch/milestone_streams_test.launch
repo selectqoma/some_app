@@ -1,0 +1,48 @@
+<launch>
+
+  <!-- launch cascade milestone streamer -->
+  <include file="$(find ip_camera_driver)/launch/rtsp_streamer.launch">
+    <arg name="namespace" value="cascade/streamer" />
+    <arg name="topic" value="image_raw" />
+    <arg name="framerate" value="10" />
+    <arg name="port" value="8554" />
+    <arg name="scale" value="1" />
+    <arg name="respawn" value="False" />
+    <arg name="expected_input_fps" value="0" />
+    <arg name="show_timestamp" value="False" />
+  </include>
+
+  <!-- launch slagsquare milestone streamer -->
+  <include file="$(find ip_camera_driver)/launch/rtsp_streamer.launch">
+    <arg name="namespace" value="slagsquare/streamer" />
+    <arg name="topic" value="image_raw" />
+    <arg name="framerate" value="10" />
+    <arg name="port" value="9554" />
+    <arg name="scale" value="1" />
+    <arg name="respawn" value="False" />
+    <arg name="expected_input_fps" value="0" />
+    <arg name="show_timestamp" value="False" />
+  </include>
+
+  <!-- Launch rtsp driver for cascade milestone stream -->
+  <include file="$(find ip_camera_driver)/launch/milestone_universal_camera_driver_node.launch">
+    <arg name="namespace" value="cascade" />
+    <arg name="mock" value="False" />
+    <arg name="respawn" value="True" />
+  </include>
+
+  <!-- Launch rtsp driver for slagsquare milestone stream -->
+  <include file="$(find ip_camera_driver)/launch/milestone_universal_camera_driver_node.launch">
+    <arg name="namespace" value="slagsquare" />
+    <arg name="mock" value="False" />
+    <arg name="respawn" value="True" />
+  </include>
+
+  <!-- set test folder -->
+  <param name="test_module" value="$(find smelter_deployment_tests)/tests/milestone_streams_test" />
+
+  <!-- run pytest runner -->
+  <test test-name="milestone_streams_test" pkg="ros_pytest" type="ros_pytest_runner"
+        output="screen" launch-prefix="python3" />
+
+</launch>

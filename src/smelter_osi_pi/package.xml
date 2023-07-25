@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>smelter_osi_pi</name>
+  <version>0.0.0</version>
+  <description>
+    Client and Server for reading and writing OSI PI tags
+  </description>
+  <author email="george@kapernikov.com">George Kouros</author>
+  <maintainer email="george@kapernikov.com">George Kouros</maintainer>
+  <license>Copyright (c) 2020 Kapernikov CVBA. All rights reserved.</license>
+  <url type="website">http://www.kapernikov.com/</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roslint</build_depend>
+
+  <depend>ros_pytest</depend>
+  <depend>rospy</depend>
+  <depend>rostest</depend>
+  <depend>smelter_msgs</depend>
+  <depend>smelter_srvs</depend>
+  <depend>std_msgs</depend>
+
+  <export>
+  </export>
+</package>

@@ -1,0 +1,12 @@
+[kpv_umicore_smelter_server]
+192.168.1.30 ansible_connection=ssh
+
+[kpv_umicore_smelter_server2]
+10.42.0.2 ansible_connection=ssh
+
+[kpv_umicore_vm]
+192.168.56.101 ansible_connection=ssh
+
+[kpv_umicore_smelter_server_vm]
+10.0.14.111 ansible_connection=ssh
+

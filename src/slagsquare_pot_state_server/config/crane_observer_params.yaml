@@ -1,0 +1,19 @@
+use_proxy: False
+crane_filepath: $(env HOME)/.ros/slagsquare_rosbag_demo/20200513_crane_data.p
+cranes:
+
+  h501:
+
+    tags:
+      'Positie brug H501': 'F1DPYUB_fvptv0iuk9DWiEl8XwolsAAAVlBDLUFTLTAwNzVcSDI2LkdJNTAxLjAxLlBW'
+      'Positie hoofdkat brug H501': 'F1DPYUB_fvptv0iuk9DWiEl8Xwp1sAAAVlBDLUFTLTAwNzVcSDI2LkdJQ0E1MDEuMjAuUFY'
+      'H26.H501 Actuele rij': 'F1DPYUB_fvptv0iuk9DWiEl8Xww18AAAVlBDLUFTLTAwNzVcSDI2Lkg1MDEgQUNUVUVMRSBSSUo'
+      'Hoogte hoofdhijs H501': 'F1DPYUB_fvptv0iuk9DWiEl8Xw-1sAAAVlBDLUFTLTAwNzVcSDI2LkdTNTAxLjIyLlBW'
+      'Gewicht hoofdhijs brug H501': 'F1DPYUB_fvptv0iuk9DWiEl8XwQGkAAAVlBDLUFTLTAwNzVcSDI2LldJU0E1MDEuMjAuMi5QVg'
+
+    mapping:
+        'x': 'Positie brug H501'
+        'x_discrete': 'H26.H501 Actuele rij'
+        'y': 'Positie hoofdkat brug H501'
+        'z': 'Hoogte hoofdhijs H501'
+        'w': 'Gewicht hoofdhijs brug H501'

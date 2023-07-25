@@ -1,0 +1,7 @@
+sensor_msgs/Image thermal_snapshot
+smelter_msgs/DetectedObjects detected_pots
+smelter_msgs/PanTiltZoom camera_pose
+---
+float32 pots_validation_percentage
+bool result
+---

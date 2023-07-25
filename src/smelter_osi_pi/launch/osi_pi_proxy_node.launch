@@ -1,0 +1,27 @@
+<launch>
+
+  <arg name="namespace" default="/" />
+  <arg name="respawn" default="False" />
+  <arg name="test" default="False" />
+
+  <node
+    name="osi_pi_proxy_node"
+    pkg="smelter_osi_pi"
+    type="osi_pi_proxy_node.py"
+    output="screen"
+    ns="$(arg namespace)"
+    respawn="$(arg respawn)">
+
+    <rosparam
+      unless="$(arg test)"
+      file="$(find smelter_osi_pi)/config/umicore_osi_pi_config_params.yaml"
+      command="load" />
+
+    <rosparam
+      if="$(arg test)"
+      file="$(find smelter_osi_pi)/config/public_osi_pi_config_params.yaml"
+      command="load" />
+
+  </node>
+
+</launch>

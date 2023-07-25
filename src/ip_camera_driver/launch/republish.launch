@@ -1,0 +1,27 @@
+<launch>
+
+  <arg name="namespace" default="/" />
+  <arg name="compressed" default="True" />
+  <arg name="theora" default="True" />
+  <arg name="display" default="False" />
+  <arg name="topic" default="/image_raw" />
+  <arg name="respawn" default="False" />
+
+  <!-- republish to compressed -->
+  <node if="$(arg compressed)" name="compressed_republisher" pkg="image_transport" type="republish"
+        ns="$(arg namespace)" output="screen" respawn="$(arg respawn)"
+        args="raw in:=$(arg topic)_raw compressed out:=$(arg topic)" />
+
+  <!-- republish to theora -->
+  <node if="$(arg theora)" name="theora_republisher" pkg="image_transport" type="republish"
+        ns="$(arg namespace)" output="screen" respawn="$(arg respawn)"
+        args="raw in:=$(arg topic)_raw theora out:=$(arg topic)" />
+
+  <!-- launch image display node -->
+  <arg name="topic_to_display" value="$(eval topic + '_raw'*(compressed==0)*(theora==0))" />
+  <arg name="transport" value="$(eval 'raw'*(compressed==0)*(theora==0) + 'compressed'*(theora==0)*(compressed==1) + 'theora'*(theora==1))" />
+  <node if="$(arg display)" name="display_node" pkg="image_view" type="image_view"
+        ns="$(arg namespace)" output="screen" respawn="$(arg respawn)"
+        args="image:=$(arg topic_to_display) _image_transport:=$(arg transport)" />
+
+</launch>

@@ -1,0 +1,16 @@
+<launch>
+  <arg name="namespace" default="slagsquare" />
+
+  <include file="$(find ip_camera_driver)/launch/camera_info_publisher.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="camera" value="flir_a310pt/rgb" />
+    <arg name="frame_id" value="flir_a310pt/rgb/optical_frame" />
+  </include>
+
+  <include file="$(find ip_camera_driver)/launch/camera_info_publisher.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="camera" value="flir_a310pt/ir" />
+    <arg name="frame_id" value="flir_a310pt/ir/optical_frame" />
+  </include>
+
+</launch>

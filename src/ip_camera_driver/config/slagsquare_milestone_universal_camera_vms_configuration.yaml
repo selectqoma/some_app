@@ -1,0 +1,13 @@
+camera_name: slagsquare/milestone_universal_camera
+frame_id: slagsquare/milestone_universal_camera/camera_link
+settings:
+  framerate: 1
+  manual_acquisition: False
+uri:
+  ip: "192.168.1.20"
+  protocol: "rtsp"
+  port: "554"
+  username: "kapernikov"
+  password: "Pieter123"
+  suffix: "/live/FFB1562F-6CA3-4608-A78D-4F5ED5A512A8"
+  device_index: 0

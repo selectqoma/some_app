@@ -1,0 +1,110 @@
+---
+- hosts: "{{ host }}"
+  remote_user: kpv
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Install apt packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - build-essentials
+          - ca-certificates
+          - cmake
+          - curl
+          - git
+          - htop
+          - iputils-ping
+          - net-tools
+          - python-pip
+          - python3-pip
+          - python3-pip
+          - python3-setuptools
+          - software-properties-common
+          - terminator
+          - vim
+          - virtualenv
+        state: latest
+        update_cache: yes
+
+    # Configure mounting of DATA partition
+    # - name: Mounting LOG partition
+      # mount:
+        # path: /home/kpv/.ros
+        # src: UUID=64aed022-9732-40d7-9202-f57b25b015e4 #LABEL=log
+        # fstype: ext4
+        # opts: defaults,users
+        # state: mounted
+    - name: create bags directory in .ros
+      file:
+        path: /home/kpv/.ros/bags
+        state: directory
+        owner: kpv
+        group: kpv
+    - name: create catkin workspace
+      file:
+        path: /home/kpv/catkin_ws/src/smelter-monitoring
+        state: directory
+        owner: kpv
+        group: kpv
+
+    # Install docker
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+    - name: Update apt and install docker-ce
+      apt:
+        pkg:
+          - docker-ce
+          - docker-compose
+        update_cache: yes
+        state: latest
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+    - name: Add the user to the docker group
+      user:
+        name: kpv
+        shell: /bin/bash
+        groups: docker
+        append: yes
+    # - name: Reset ssh connection to update user groups
+      # meta: reset_connection
+      # ignore_errors: True
+    - name: Kill SSH
+      shell: sleep 1; pkill -u {{ ansible_ssh_user }} sshd
+      async: 3
+      poll: 2
+
+    # Install docker image and dependencies
+    - name: Copy repository to remote
+      synchronize:
+        src: ./
+        dest: /home/kpv/catkin_ws/src/smelter-monitoring/
+        rsync_path: /usr/bin/rsync
+        # rsync_opts:
+          # - "--exclude=.git"
+    - name: Copy datasets and models repository to remote
+      synchronize:
+        src: ../smelter-datasets-and-models
+        dest: /home/kpv/catkin_ws/src/
+        copy_links: yes
+        rsync_path: /usr/bin/rsync
+        # rsync_opts:
+          # - "--exclude=.git"
+    - name: Load docker image
+      docker_image:
+        name: registry.gitlab.com/kapernikov/umicore/smelter-monitoring/base_focal_x64
+        source: load
+        load_path: /home/kpv/catkin_ws/src/smelter-monitoring/smelter-monitoring-docker-img.tar
+    - name: Start container
+      docker_compose:
+        project_src: /home/kpv/catkin_ws/src/smelter-monitoring
+        build: no
+        restarted: yes
+      register: output

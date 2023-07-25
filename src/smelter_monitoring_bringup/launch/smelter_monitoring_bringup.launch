@@ -1,0 +1,59 @@
+<launch>
+
+  <arg name="cascade" default="True" />
+  <arg name="slagsquare" default="True" />
+  <arg name="streaming" default="True" />
+  <arg name="streaming2" default="False" />
+  <arg name="rqt_gui" default="False" />
+  <arg name="fsm_viewer" default="False" />
+  <arg name="record" default="True" />
+  <arg name="respawn" default="True" />
+  <arg name="use_proxy" default="True" />
+  <arg name="osi_pi" default="True" />
+  <arg name="common" default="True" />
+
+  <arg name="mock" default="False" />
+  <param name="/mock" value="$(arg mock)" />
+
+  <include if="$(arg cascade)" file="$(find smelter_monitoring_bringup)/launch/cascade_monitoring_bringup.launch">
+    <arg name="namespace" value="cascade" />
+    <arg name="streaming" value="$(arg streaming)" />
+    <arg name="rqt_gui" value="$(arg rqt_gui)" />
+    <arg name="record" value="$(arg record)" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="mock" value="$(arg mock)" />
+  </include>
+
+  <include if="$(arg slagsquare)" file="$(find smelter_monitoring_bringup)/launch/slagsquare_monitoring_bringup.launch">
+    <arg name="namespace" value="slagsquare" />
+    <arg name="streaming" value="$(arg streaming)" />
+    <arg name="rqt_gui" value="$(arg rqt_gui)" />
+    <arg name="fsm_viewer" value="$(arg fsm_viewer)" />
+    <arg name="record" value="$(arg record)" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="mock" value="$(arg mock)" />
+    <arg name="use_proxy" value="$(arg use_proxy)" />
+    <arg name="osi_pi_proxy" value="False" />
+    <arg name="osi_pi" value="$(arg osi_pi)" />
+  </include>
+
+  <include if="$(arg common)" file="$(find smelter_monitoring_bringup)/launch/smelter_common_bringup.launch">
+    <arg name="namespace" value="/" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="diagnostics" value="True" />
+    <arg name="diagnostics_gui" value="False" />
+    <arg name="osi_pi" value="$(arg osi_pi)" />
+    <arg name="use_proxy" value="$(arg use_proxy)" />
+  </include>
+
+  <include if="$(arg streaming2)" file="$(find ip_camera_driver)/launch/dual_rtsp_streaming_node.launch">
+    <arg name="namespace" value="smelter" />
+    <arg name="port" value="8554" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="topic1" value="/slagsquare/pot_states/image" />
+    <arg name="suffix1" value="slagsquare_pot_states" />
+    <arg name="topic2" value="/cascade/groundplan/image" />
+    <arg name="suffix2" value="cascade_pot_states" />
+  </include>
+
+</launch>

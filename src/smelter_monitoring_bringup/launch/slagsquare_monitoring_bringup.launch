@@ -1,0 +1,129 @@
+<launch>
+
+  <!-- arguments -->
+  <arg name="namespace" default="slagsquare" />
+  <arg name="camera" default="flir_a310pt" />
+  <arg name="rate" default="1.0" />
+  <arg name="compressed" default="False" />
+  <!-- mode flags -->
+  <arg name="playback" default="False" />
+  <arg name="step_mode" default="False" />
+  <arg name="respawn" default="True" />
+  <!-- logging flags -->
+  <arg name="record" default="True" />
+  <!-- node flags -->
+  <arg name="fsm" default="True" />
+  <arg name="fsm_viewer" default="False" />
+  <arg name="cameras" default="True" />
+  <arg name="ptz_patrol" default="True" />
+  <arg name="pot_detector" default="True" />
+  <arg name="pot_state_server" default="True" />
+  <arg name="groundplan_viz" default="True" />
+  <arg name="streaming" default="True" />
+  <arg name="rqt_gui" default="False" />
+  <arg name="osi_pi" default="True"  />
+  <arg name="osi_pi_proxy" default="False" />
+  <arg name="diagnostics" default="False" />
+  <arg name="diagnostics_gui" default="False" />
+  <arg name="use_proxy" default="True" />
+
+  <arg name="mock" default="False" />
+
+  <!-- launch the finite state machine of the application -->
+  <include if="$(arg fsm)" file="$(find slagsquare_monitoring_fsm)/launch/slagsquare_monitoring_fsm.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="viewer" value="$(arg fsm_viewer)" />
+    <arg name="camera" value="$(arg camera)" />
+    <arg name="step_mode" value="$(arg step_mode)" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <!-- launch bag recorder -->
+  <group if="$(arg record)">
+    <include file="$(find ip_camera_driver)/launch/bag_recorder.launch">
+      <arg name="namespace" value="$(arg namespace)" />
+      <arg name="respawn" value="$(arg respawn)" />
+      <arg name="topics" value="/$(arg namespace)/((.*)rgb/snapshot/image/compressed|(.*)ir/snapshot(.*)image_raw|(.*)ptz\/state)" />
+    </include>
+  </group>
+
+  <!-- launch camera drivers -->
+  <include if="$(eval cameras * (playback==0))" file="$(find ip_camera_driver)/launch/slagsquare_monitoring_camera_drivers.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="camera" value="$(arg camera)" />
+    <arg name="ir" value="True" />
+    <arg name="rgb" value="True" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="compressed" value="$(arg compressed)" />
+    <arg name="theora" value="False" />
+    <arg name="mock" value="$(arg mock)" />
+  </include>
+
+  <!-- launch ptz patrol controller -->
+  <include if="$(arg ptz_patrol)" file="$(find camera_patrol_controller)/launch/camera_patrol_controller_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="camera" value="$(arg camera)" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <!-- launch pot detector -->
+  <include if="$(arg pot_detector)" file="$(find slagsquare_pot_instance_segmentation)/launch/pot_detector_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="camera" value="$(arg camera)" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <!-- launch pot state server node  -->
+  <include if="$(arg pot_state_server)" file="$(find slagsquare_pot_state_server)/launch/pot_state_server_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="camera" value="$(arg camera)" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="osi_pi" value="$(arg osi_pi)" />
+    <arg name="use_proxy" value="$(arg use_proxy)" />
+  </include>
+
+  <!-- launch groundplan visualization -->
+  <include if="$(arg groundplan_viz)" file="$(find slagsquare_groundplan_visualization)/launch/groundplan_visualization_node.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <!-- launch osi pi publisher for the pot states -->
+  <include if="$(arg osi_pi)" file="$(find smelter_osi_pi)/launch/slagsquare_pot_states_osi_pi_publisher.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="use_proxy" value="$(arg use_proxy)" />
+  </include>
+
+  <!-- launch rtsp_streamer -->
+  <include if="$(arg streaming)" file="$(find ip_camera_driver)/launch/rtsp_streamer.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="topic" value="groundplan/image_raw" />
+    <arg name="port" value="9554" />
+    <arg name="expected_input_fps" value="0.025" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <!-- launch rqt_gui -->
+  <include if="$(arg rqt_gui)" file="$(find smelter_monitoring_rqt_gui)/launch/smelter_monitoring_rqt_gui.launch">
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="respawn" value="$(arg respawn)" />
+  </include>
+
+  <!-- launch diagnostics for condition monitoring  -->
+  <include if="$(arg diagnostics)" file="$(find smelter_diagnostics)/launch/diagnostics.launch">
+    <arg name="namespace" value="/" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="gui" value="$(arg diagnostics_gui)" />
+    <arg name="osi_pi" value="$(arg osi_pi)" />
+    <arg name="use_proxy" value="$(arg use_proxy)" />
+  </include>
+
+  <!-- launch osi pi proxy node for osi pi requests from all applications-->
+  <include if="$(arg osi_pi_proxy)" file="$(find smelter_osi_pi)/launch/osi_pi_proxy_node.launch">
+    <arg name="namespace" value="/" />
+    <arg name="respawn" value="$(arg respawn)" />
+    <arg name="test" value="False" />
+  </include>
+
+</launch>

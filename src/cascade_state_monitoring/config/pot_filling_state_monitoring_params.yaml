@@ -1,0 +1,3 @@
+flow_warning_threshold: 2
+flow_danger_threshold: 3
+melt_pixel_threshold: 200 # for 200-1200 degree range or 200 for 0-350 degree range

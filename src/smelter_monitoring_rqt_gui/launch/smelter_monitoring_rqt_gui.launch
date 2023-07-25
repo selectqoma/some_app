@@ -1,0 +1,13 @@
+<launch>
+  <arg name="namespace" default="/"/>
+  <arg name="respawn" default="False" />
+
+  <node name="monitoring_rqt_gui" pkg="rqt_gui" type="rqt_gui"
+        ns="$(arg namespace)" output="screen" respawn="$(arg respawn)"
+        args="--perspective-file $(find smelter_monitoring_rqt_gui)/config/$(arg namespace)_monitoring_rqt_gui.perspective">
+
+    <remap from="/$(arg namespace)/diagnostics_agg" to="/diagnostics_agg"/>
+
+  </node>
+
+</launch>

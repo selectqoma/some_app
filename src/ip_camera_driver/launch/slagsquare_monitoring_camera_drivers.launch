@@ -1,0 +1,92 @@
+<launch>
+
+  <arg name="namespace" default="slagsquare" />
+  <arg name="camera" default="flir_a310pt" />
+  <arg name="comm" default="direct" doc="[direct, vms]"/>
+  <arg name="display" default="False" />
+  <arg name="ir" default="True" />
+  <arg name="rgb" default="True" />
+  <arg name="vms" default="True" />
+  <arg name="compressed" default="True" />
+  <arg name="theora" default="False" />
+  <arg name="respawn" default="False" />
+  <arg name="mock" default="False" />
+
+  <!-- ########################### IR Camera Nodes ######################## -->
+
+  <group if="$(arg ir)">
+
+    <!-- launch ir camera driver using rtsp video capture of opencv -->
+    <node unless="$(arg mock)" name="rtsp_camera_driver_node" pkg="ip_camera_driver" type="ip_camera_driver_node.py"
+          ns="$(arg namespace)/$(arg camera)/ir" respawn="$(arg respawn)" output="screen">
+      <rosparam file="$(find ip_camera_driver)/config/$(arg namespace)_$(arg camera)_ir_camera_$(arg comm)_configuration.yaml" />
+      <param name="~mock" value="$(arg mock)" />
+      <param name="~settings/manual_acquisition" value="False" />
+      <remap from="image_raw" to="$(arg camera)/ir/scaled/image_raw" />
+      <remap from="image/compressed" to="$(arg camera)/ir/image/compressed" />
+    </node>
+
+    <!-- launch ir camera driver using FLIR's CGI protocol -->
+    <node name="cgi_camera_driver_node" pkg="ip_camera_driver" type="flir_cgi_driver_node.py"
+          ns="$(arg namespace)/$(arg camera)/ir" respawn="$(arg respawn)" output="screen">
+
+      <!-- Load camera parameters -->
+      <rosparam file="$(find ip_camera_driver)/config/$(arg namespace)_$(arg camera)_ir_camera_$(arg comm)_configuration.yaml" />
+      <param name="~mock" value="$(arg mock)" />
+
+      <!-- remap topics for ptz control -->
+      <!-- <remap from="ptz/state" to="/$(arg namespace)/$(arg camera)/ptz/state" /> -->
+      <remap from="ptz/cmd" to="/$(arg namespace)/$(arg camera)/ptz/cmd" />
+      <remap from="ptz/cmd/cancel" to="/$(arg namespace)/$(arg camera)/ptz/cmd/cancel" />
+      <remap from="ptz/cmd/feedback" to="/$(arg namespace)/$(arg camera)/ptz/cmd/feedback" />
+      <remap from="ptz/cmd/goal" to="/$(arg namespace)/$(arg camera)/ptz/cmd/goal" />
+      <remap from="ptz/cmd/result" to="/$(arg namespace)/$(arg camera)/ptz/cmd/result" />
+      <remap from="ptz/cmd/status" to="/$(arg namespace)/$(arg camera)/ptz/cmd/status" />
+
+    </node>
+
+    <!-- launch republishers in compressed and theora codecs -->
+    <arg name="normalized" value="$(eval '/normalized')" />
+    <include file="$(find ip_camera_driver)/launch/republish.launch">
+      <arg name="namespace" value="$(arg namespace)"/>
+      <arg name="topic" value="$(arg camera)/ir$(arg normalized)/image"/>
+      <arg name="compressed" value="$(arg compressed)"/>
+      <arg name="theora" value="$(arg theora)"/>
+      <arg name="display" value="$(arg display)"/>
+    </include>
+  </group>
+
+  <!-- ########################### RGB Camera Nodes ######################## -->
+
+  <group if="$(arg rgb)">
+    <!-- launch rgb camera driver -->
+    <node name="rtsp_camera_driver_node" pkg="ip_camera_driver" type="ip_camera_driver_node.py"
+          ns="$(arg namespace)/$(arg camera)/rgb" respawn="$(arg respawn)" output="screen">
+
+      <!-- Load camera parameters -->
+      <rosparam file="$(find ip_camera_driver)/config/$(arg namespace)_$(arg camera)_rgb_camera_$(arg comm)_configuration.yaml" />
+
+      <param name="~mock" value="$(arg mock)" />
+
+    </node>
+
+    <!-- launch republishers in compressed and theora codecs -->
+    <include file="$(find ip_camera_driver)/launch/republish.launch">
+      <arg name="namespace" value="$(arg namespace)/$(arg camera)/rgb"/>
+      <arg name="topic" value="image_raw"/>
+      <arg name="compressed" value="$(arg compressed)"/>
+      <arg name="theora" value="$(arg theora)"/>
+      <arg name="display" value="$(arg display)"/>
+    </include>
+  </group>
+
+  <!-- ########################## VMS Driver Nodes ######################## -->
+  <group if="$(arg vms)">
+    <include file="$(find ip_camera_driver)/launch/milestone_universal_camera_driver_node.launch">
+      <arg name="namespace" value="$(arg namespace)" />
+      <arg name="mock" value="$(arg mock)" />
+      <arg name="respawn" value="$(arg respawn)" />
+    </include>
+  </group>
+
+</launch>

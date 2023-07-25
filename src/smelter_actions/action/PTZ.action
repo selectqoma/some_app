@@ -1,0 +1,8 @@
+smelter_msgs/PanTiltZoom ptz
+---
+bool result
+smelter_msgs/PanTiltZoom ptz
+duration elapsed_time
+---
+smelter_msgs/PanTiltZoom ptz
+duration elapsed_time

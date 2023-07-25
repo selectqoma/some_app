@@ -1,0 +1,24 @@
+# for onvif controller usage
+camera_name: slagsquare/flir_a310pt
+frame_id: slagsquare/flir_a310pt/camera_link
+settings:
+  ptz_tolerance: 0.01
+  ptz_rate: 5
+  manual_acqusition: True
+  default:
+    position:
+      pan: 0.0
+      tilt: 0.0
+      zoom: 0.0
+    speed:
+      pan: 1.0
+      tilt: 1.0
+      zoom: 1.0
+uri:
+  ip: 192.168.1.104
+  protocol: 'onvif'
+  port: "80"
+  username: "admin"
+  password: "Umicore123"
+  suffix: "ch2" # 0: IR, 1: IR low res, 2: rgb, 3: rgb low res
+  device_index: 0

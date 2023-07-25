@@ -1,0 +1,14 @@
+camera_name: cascade_frog_ir_camera
+frame_id: cascade/frog/left/ir/camera_link
+# camera_info_url: package://ip_camera_driver/calibrations/cascade_frog_left_ir_camera_intrinsic_calibration.yaml
+settings:
+  framerate: 10
+  manual_acquisition: False
+uri:
+  ip: 192.168.1.62 # TODO find correct ip
+  protocol: rtsp
+  port: "80"
+  username: "admin"
+  password: "2440emic"
+  suffix: "" # 0: IR, 1: IR low res, 2: rgb, 3: rgb low res
+  device_index: 0

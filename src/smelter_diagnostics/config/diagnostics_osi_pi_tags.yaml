@@ -1,0 +1,18 @@
+asset_server_hierarchy:
+  - "SMELTER"
+  - "KOPEROVEN D100"
+  - "SLAKKENTAPPINGEN"
+  - "SLAKKENTAPPING NOORD"
+
+tags:
+  "Cascade Monitoring":
+    "Milestone Universal Camera Driver": "H26.S1.Cascade Milestone Monitor.Status"
+    "Pot Filling States RTSP Streamer": "H26.S1.Cascade Milestone Streamer.Status"
+    "FLIR A310F IR": "H26.S1.Cascade FLIR A310F IR Camera.Status"
+
+  "Slagsquare Monitoring":
+    "Pot States Groundplan RTSP Streamer": "H26.S1.Slagsquare Milestone Streamer.Status"
+    "FLIR A310PT RGB": "H26.S1.Slagsquare FLIR A310PT RGB Camera.Status"
+    "FLIR A310PT IR": "H26.S1.Slagsquare FLIR A310PT IR Camera.Status"
+    "OSI PI Pot State Publisher": "H26.S1.Slagsquare OSI PI Pot State Publisher.Status"
+    "Milestone Universal Camera Driver": "H26.S1.Slagsquare Milestone Monitor.Status"

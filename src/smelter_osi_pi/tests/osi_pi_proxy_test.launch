@@ -1,0 +1,14 @@
+<launch>
+
+  <include file="$(find smelter_osi_pi)/launch/osi_pi_proxy_node.launch">
+    <arg name="test" value="True" />
+  </include>
+
+  <!-- set test folder -->
+  <param name="test_module" value="$(find smelter_osi_pi)/tests/osi_pi_proxy_test" />
+
+  <!-- run pytest runner -->
+  <test test-name="osi_pi_proxy" pkg="ros_pytest" type="ros_pytest_runner"
+        launch-prefix="python3" />
+
+</launch>

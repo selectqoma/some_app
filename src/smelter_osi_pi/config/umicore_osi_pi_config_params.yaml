@@ -1,0 +1,6 @@
+piwebapi_url: "https://10.176.33.75/piwebapi"
+af_server_name: "VPC-AS-0076"
+af_database_name: "HOB"
+piwebapi_user: "App-Kapernikov" # Or, "domain\\userName"
+piwebapi_pass: "rEyHc9Z2funCWS8Q"
+piwebapi_security_method: "basic" # Basic or Kerberos

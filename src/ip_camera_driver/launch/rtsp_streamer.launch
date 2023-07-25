@@ -1,0 +1,26 @@
+<launch>
+
+  <arg name="namespace" default="/" />
+  <arg name="topic" default="image_raw" />
+  <arg name="port" default="554" />
+  <arg name="scale" default="1.0" />
+  <arg name="respawn" default="False" />
+  <arg name="expected_input_fps" default="0" />
+  <arg name="framerate" default="10" />
+  <arg name="show_timestamp" default="False" />
+
+  <node name="rtsp_streamer_node" pkg="ip_camera_driver" type="rtsp_streamer_node.py"
+        ns="$(arg namespace)" output="screen" respawn="$(arg respawn)"
+        launch-prefix="python3">
+
+    <param name="~framerate" value="$(arg framerate)" />
+    <param name="~output" value="remote" />
+    <param name="~port" value="$(arg port)" />
+    <param name="~scale" value="$(arg scale)" />
+    <param name="~expected_input_fps" value="$(arg expected_input_fps)" />
+    <param name="~show_timestamp" value="$(arg show_timestamp)" />
+
+    <remap from="image_raw" to="$(arg topic)" />
+  </node>
+
+</launch>
